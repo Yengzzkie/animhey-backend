@@ -14,11 +14,7 @@ mongoose.connect(process.env.MONGODB_URI)
 app.use(express.json());
 app.use('/api/visits', visitsRoute);
 
-app.use(cors({
-  origin: '*',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-}));
+app.use(cors());
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
