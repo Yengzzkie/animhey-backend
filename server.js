@@ -8,10 +8,25 @@ connectDB(); //connect to database
 const app = express();
 const port = 3000;
 
+const allowedOrigins = [
+  'https://animhey.netlify.app',
+  'http://localhost:5173',
+  'http://localhost:5174'
+];
+
 // Middleware to parse JSON
 app.use(express.json());
 app.use(cors({
-  origin: 'https://animhey.netlify.app'
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = 'The CORS policy for this site does not allow access from the specified origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  }
 }));
 
 // Serve static files from the 'public' directory
