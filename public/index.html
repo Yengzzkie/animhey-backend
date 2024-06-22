@@ -6,36 +6,7 @@
   <title>Click Counter</title>
 </head>
 <body>
-  <h1>Click Counter</h1>
-  <p>Click Count: <span id="click-count">0</span></p>
-  <button id="click-button">Click Me!</button>
+  <p>Welcome to click counter</p>
 
-  <script>
-    // Get elements
-    const clickCountElement = document.getElementById('click-count');
-    const clickButton = document.getElementById('click-button');
-
-    // Fetch initial click count
-    fetch("/visit")
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-        clickCountElement.textContent = data.clicks;
-      })
-      .catch(error => console.error("Error fetching click count:", error));
-
-    // Handle button click
-    clickButton.addEventListener('click', () => {
-      fetch("/visit", {
-        method: "POST"
-      })
-      .then(response => response.json())
-      .then(data => {
-        clickCountElement.textContent = data.clicks;
-        // console.log(data)
-      })
-      .catch(error => console.error('Error incrementing click count:', error));
-    });
-  </script>
 </body>
 </html>
