@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(cors());
 
 // Get clicks count
-app.get('/', async (req, res) => {
+app.get('/visit', async (req, res) => {
   try {
     const clickData = await Click.findOne({});
     if (clickData) {
@@ -30,7 +30,7 @@ app.get('/', async (req, res) => {
 });
 
 // Increment clicks count
-app.post('/', async (req, res) => {
+app.post('/visit', async (req, res) => {
   try {
     const clickData = await Click.findOne({});
     if (clickData) {

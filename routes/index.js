@@ -3,7 +3,7 @@ var router = express.Router();
 const Click = require('../models/click');
 
 /* GET clicks count */
-router.get('/', async function(req, res, next) {
+router.get('/visit', async function(req, res, next) {
   try {
     const clickData = await Click.findOne({});
     if (clickData) {
