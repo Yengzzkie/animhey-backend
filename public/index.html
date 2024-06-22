@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fetch Data Example</title>
+</head>
+<body>
+  <h1>Users</h1>
+  <ul id="items-list"></ul>
+
+  <h2>Add New User</h2>
+  <form id="item-form">
+    <button type="submit">Add User</button>
+  </form>
+
+  <h1>Click Counter</h1>
+  <p>Click Count: <span id="click-count">0</span></p>
+  <button id="click-button">Click Me!</button>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      fetch("http://localhost:3000/user")
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+          const itemsList = document.getElementById("items-list");
+          data.forEach(user => {
+            const listItem = document.createElement("li");
+            listItem.innerHTML = `
+              <p>First Name: ${user.name}</p>
+              <p>Last Name: ${user.email}</p>
+              <p>Age: ${user.age}</p>
+            `;
+            itemsList.appendChild(listItem);
+          });
+        })
+        .catch(error => console.error("Error fetching data:", error));
+    });
+
+    // Handle form submission
+    const form = document.getElementById('item-form');
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+
+      const formData = {
+        // first_name: form.first_name.value,
+        // last_name: form.last_name.value,
+        // age: form.age.value
+        clicks: 1
+      };
+
+      fetch('http://localhost:3000/user', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      })
+      .then(response => response.json())
+      // .then(data => {
+      //   const itemsList = document.getElementById('items-list');
+      //   const listItem = document.createElement('li');
+      //   listItem.innerHTML = `
+      //     <p>First Name: ${data.first_name}</p>
+      //     <p>Last Name: ${data.last_name}</p>
+      //     <p>Age: ${data.age}</p>
+      //   `;
+      //   itemsList.appendChild(listItem);
+
+      //   form.reset();
+      // })
+      .catch(error => console.error('Error adding item:', error));
+    });
+
+    // document.addEventListener("DOMContentLoaded", () => {
+    //   const clickCountElement = document.getElementById("click-count");
+    //   const clickButton = document.getElementById("click-button");
+
+      // Fetch initial click count
+      fetch("http://localhost:3000/clicks")
+        .then(response => response.json())
+        .then(data => {
+          clickCountElement.textContent = data.clicks;
+        })
+        .catch(error => console.error("Error fetching click count:", error));
+
+  //     // Handle button click
+  //     clickButton.addEventListener("click", () => {
+  //     fetch("http://localhost:3000/clicks", {
+  //       method: "POST"
+  //     })
+  //     .then(response => {
+  //       console.log(response);  // Add this line to debug the response
+  //       return response.json();
+  //     })
+  //     .then(data => {
+  //       clickCountElement.textContent = data.clicks;
+  //     })
+  //     .catch(error => console.error("Error incrementing click count:", error));
+  //   });
+  // });
+
+  const fetchClick = () => {
+  fetch("http://localhost:3000/clicks", { method: "POST" })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data); // Handle the data here
+    })
+    .catch(error => console.error('Error incrementing click count:', error));
+}
+
+fetchClick();
+
+  </script>
+</body>
+</html>
