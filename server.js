@@ -1,26 +1,18 @@
-// app.js
-
-import express from 'express';
-import cors from 'cors';
-import connectDB from './config/db.js'; // Adjust path as needed
-import apiVisit from './api/visit.js'; // Adjust path as needed
-
-// Connect to the database
-connectDB();
+const express = require('express');
+const mongoose = require('mongoose');
+const visitsRoute = require('./api/visits');
+require('dotenv').config();
 
 const app = express();
+const port = process.env.PORT || 3000;
 
-// Middleware
+mongoose.connect(process.env.MONGODB_URI)
+    .then(() => console.log('MongoDB connected'))
+    .catch(err => console.error(err));
+
 app.use(express.json());
-app.use(cors());
+app.use('/api/visits', visitsRoute);
 
-// Routes
-app.use('/api/visit', apiVisit); // Mount the visit API route
-
-// Error handling middleware
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send('Internal Server Error');
+app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
 });
-
-export default app; // Export the Express app for local development
