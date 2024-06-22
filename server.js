@@ -77,7 +77,7 @@ app.delete('/user/:id', async (req, res) => {
 });
 
 // Get clicks count
-app.get('/clicks', async (req, res) => {
+app.get('/', async (req, res) => {
   try {
     const clickData = await Click.findOne({});
     if (clickData) {
@@ -94,7 +94,7 @@ app.get('/clicks', async (req, res) => {
 
 
 // Increment clicks count
-app.post('/clicks', async (req, res) => {
+app.post('/', async (req, res) => {
   try {
     const clickData = await Click.findOne({});
     if (clickData) {
