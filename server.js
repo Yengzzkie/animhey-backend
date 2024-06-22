@@ -1,53 +1,26 @@
-import express from "express";
-import cors from "cors";
-import connectDB from "./config/db.js";
-import Click from "./models/click.js";
+// app.js
+
+import express from 'express';
+import cors from 'cors';
+import connectDB from './config/db.js'; // Adjust path as needed
+import apiVisit from './api/visit.js'; // Adjust path as needed
 
 // Connect to the database
 connectDB();
 
 const app = express();
-const port = 3000;
 
-// Middleware to parse JSON
+// Middleware
 app.use(express.json());
 app.use(cors());
 
-// Get clicks count
-app.get('/visit', async (req, res) => {
-  try {
-    const clickData = await Click.findOne({});
-    if (clickData) {
-      res.json({ clicks: clickData.clicks });
-    } else {
-      const newClick = new Click();
-      await newClick.save();
-      res.json({ clicks: newClick.clicks });
-    }
-  } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
+// Routes
+app.use('/api/visit', apiVisit); // Mount the visit API route
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Internal Server Error');
 });
 
-// Increment clicks count
-app.post('/visit', async (req, res) => {
-  try {
-    const clickData = await Click.findOne({});
-    if (clickData) {
-      clickData.clicks += 1;
-      await clickData.save();
-      res.json({ clicks: clickData.clicks });
-    } else {
-      const newClick = new Click({ clicks: 1 });
-      await newClick.save();
-      res.json({ clicks: newClick.clicks });
-    }
-  } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
-
-// Start the server
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
-});
+export default app; // Export the Express app for local development
