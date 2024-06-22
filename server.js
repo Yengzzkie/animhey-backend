@@ -10,7 +10,9 @@ const port = 3000;
 
 // Middleware to parse JSON
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: 'https://animhey.netlify.app'
+}));
 
 // Serve static files from the 'public' directory
 app.use(express.static('public'));

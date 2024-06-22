@@ -16,21 +16,23 @@
     const clickButton = document.getElementById('click-button');
 
     // Fetch initial click count
-    fetch("http://localhost:3000/")
+    fetch("https://animhey-backend-dxyrno310-yengzzkies-projects.vercel.app/")
       .then(response => response.json())
       .then(data => {
+        console.log(data);
         clickCountElement.textContent = data.clicks;
       })
       .catch(error => console.error("Error fetching click count:", error));
 
     // Handle button click
     clickButton.addEventListener('click', () => {
-      fetch("http://localhost:3000/", {
+      fetch("https://animhey-backend-dxyrno310-yengzzkies-projects.vercel.app/", {
         method: "POST"
       })
       .then(response => response.json())
       .then(data => {
         clickCountElement.textContent = data.clicks;
+        // console.log(data)
       })
       .catch(error => console.error('Error incrementing click count:', error));
     });
