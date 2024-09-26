@@ -16,6 +16,10 @@ app.options('*', cors());
 app.use(express.json());
 app.use('/api/visits', visitsRoute);
 
+app.get("/", (req, res) => {
+    res.send(req.ip)
+})
+
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
