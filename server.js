@@ -17,7 +17,7 @@ app.use(express.json());
 app.use('/api/visits', visitsRoute);
 
 app.get("/", (req, res) => {
-    res.send(req.ip)
+    res.json({ip: req.ip})
 })
 
 app.listen(port, () => {
